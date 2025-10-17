@@ -1,0 +1,13 @@
+awaz_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGYxYmNlODIyNDJhZjZiYmM1ODIwMzAiLCJ1c2VybmFtZSI6ImFub25fMDAxIiwiaWF0IjoxNzYwNjczMzk4LCJleHAiOjE3NjEyNzgxOTh9.D4kiM3_6EsKiJ4W4ijdythesp0QGJwaNI6gpODu1AyU; Path=/; HttpOnly; Expires=Fri, 24 Oct 2025 03:56:38 GMT;
+
+
+token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTc2YTE4ZmI4Y2IwODM1NTg4MjAwMCIsImlhdCI6MTc1NTgwMjIwMSwiZXhwIjoxNzU1ODA1ODAxfQ.uIbiSrkJ3kicg4D5oTfCgnabQph4ti2omY5r4nWOxjo; Path=/; Secure; HttpOnly; Expires=Thu, 21 Aug 2025 19:50:01 GMT;
+
+
+
+
+{
+  "username": "admin001",
+  "password": "hashedPassword",
+  "role": "admin"
+}
