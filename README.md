@@ -1,6 +1,4 @@
-Here is the complete `README.md` code block. You can copy this directly into your file.
 
-```markdown
 # 📢 Awaz - Student Grievance & Community Platform
 
 **Awaz** is a comprehensive full-stack web application designed to bridge the gap between students and administration. It allows students to voice their concerns, track complaints, and interact with a supportive AI chatbot, while providing administrators with tools to manage and resolve issues efficiently.
