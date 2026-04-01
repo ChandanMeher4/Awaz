@@ -15,7 +15,12 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'http://localhost:5174',
+  'https://awaz-gamma.vercel.app',
+  'https://awaz-sb12.vercel.app'
+];
 if (process.env.FRONTEND_URL) allowedOrigins.push(process.env.FRONTEND_URL.endsWith('/') ? process.env.FRONTEND_URL.slice(0, -1) : process.env.FRONTEND_URL);
 if (process.env.ADMIN_URL) allowedOrigins.push(process.env.ADMIN_URL.endsWith('/') ? process.env.ADMIN_URL.slice(0, -1) : process.env.ADMIN_URL);
 
