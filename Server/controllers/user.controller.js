@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import {User} from "../models/user.model.js";
 import { generateToken } from "../utils/generateToken.js";
 
-// REGISTER USER
 export const registerUser = async (req, res) => {
   try {
     const { username, password, role } = req.body; // role optional
@@ -46,7 +45,6 @@ export const registerUser = async (req, res) => {
 };
 
 
-// LOGIN USER
 export const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -86,10 +84,8 @@ export const loginUser = async (req, res) => {
 
 
 
-// LOGOUT USER
 export const logoutUser = async (req, res) => {
     try {
-      // Clear the token cookie
       res.clearCookie("awaz_token", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",

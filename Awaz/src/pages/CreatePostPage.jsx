@@ -72,7 +72,6 @@ function CreatePostPage() {
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Post Type Selector */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Post Type
@@ -123,7 +122,6 @@ function CreatePostPage() {
             </div>
           )}
 
-          {/* Description */}
           <div>
             <label
               htmlFor="description"
@@ -142,7 +140,6 @@ function CreatePostPage() {
             ></textarea>
           </div>
 
-          {/* File Upload */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Attach Image/Video (Optional)

@@ -10,27 +10,20 @@ export const createPost = async (req, res) => {
 
     anonymous = anonymous === 'true';
 
-    // Prepare media data
     let media = {};
     if (req.file) {
-      // Single file
       media = {
-        url: req.file.path,      // Cloudinary URL
-        public_id: req.file.filename, // Cloudinary public_id
+        url: req.file.path,
+        public_id: req.file.filename,
       };
     }
-
-    // For multiple files:
-    // if (req.files) {
-    //   media = req.files.map(f => ({ url: f.path, public_id: f.filename }));
-    // }
 
     const post = new Post({
       title,
       text: text.trim(),
       anonymous,
       media,
-      authorRef: req.user._id, // ALWAYS set this so "My Activity" works
+      authorRef: req.user._id,
     });
 
     await post.save();
@@ -77,9 +70,8 @@ export const getPost = async (req, res) => {
   if (!post) return res.status(404).json({ message: "Post not found" });
 
   post = post.toObject();
-  if (post.anonymous) {
-    delete post.authorRef; // Hide author if anonymous
-  }
+  if (post.anonymous) delete post.authorRef;
+
 
   res.status(200).json({ post });
 };
@@ -88,7 +80,8 @@ export const getPost = async (req, res) => {
 export const updatePostStatus = async (req, res) => {
   try {
     const { postId } = req.params;
-    const { status } = req.body; // expected "done" or "pending"
+    const { status } = req.body;
+
 
     if (!["Pending", "In Progress", "Resolved"].includes(status)) {
       return res.status(400).json({ message: "Invalid status value" });
@@ -131,7 +124,6 @@ export const toggleLike = async (req, res) => {
     const post = await Post.findById(postId);
     if (!post) return res.status(404).json({ message: "Post not found" });
     
-    // Using a simplistic increment/decrement based on frontend request for now
     const adjust = req.body.adjust === -1 ? -1 : 1;
     post.likes = Math.max(0, (post.likes || 0) + adjust);
     

@@ -6,8 +6,8 @@ import PostCard from '../components/PostCard';
 
 const getStatusColor = (status) => {
   switch (status) {
-    case 'New': return 'bg-blue-500 text-blue-100';
-    case 'In Progress': return 'bg-purple-500 text-purple-100';
+    case 'Pending': return 'bg-yellow-500 text-yellow-100';
+    case 'In Progress': return 'bg-blue-500 text-blue-100';
     case 'Resolved': return 'bg-green-500 text-green-100';
     default: return 'bg-gray-500 text-gray-100';
   }

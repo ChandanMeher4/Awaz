@@ -53,7 +53,7 @@ function AdminDashboard() {
   }, [isLoading]);
 
   const getPrivateStats = () => {
-    if (activeTab !== 'private') return { new: 0, inProgress: 7, resolved: 2 };
+    if (activeTab !== 'private') return { new: 0, inProgress: 0, resolved: 0 };
     return {
       new: posts.filter(p => p.status === 'New').length,
       inProgress: posts.filter(p => p.status === 'In Progress').length,

@@ -9,7 +9,6 @@ import router from './routes/user.routes.js'
 import postRouter from "./routes/post.routes.js";
 import aiRouter from "./routes/ai.routes.js";
 
-
 const app = express()
 
 app.use(express.json())
