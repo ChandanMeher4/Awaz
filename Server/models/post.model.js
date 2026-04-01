@@ -12,7 +12,7 @@ const postSchema = new mongoose.Schema({
   media: { url: String, public_id: String }, // This structure is better
   anonymous: { type: Boolean, default: true },
   authorRef: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  status: { type: String, enum: ["pending", "done"], default: "pending" },
+  status: { type: String, enum: ["Pending", "In Progress", "Resolved"], default: "Pending" },
   replies: [replySchema],
   likes: { type: Number, default: 0 },
   priority: { type: String, enum: ['High', 'Medium', 'Low'], default: 'Medium' }, // <-- ADD THIS
