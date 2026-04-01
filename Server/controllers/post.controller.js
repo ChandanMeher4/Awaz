@@ -90,7 +90,7 @@ export const updatePostStatus = async (req, res) => {
     const { postId } = req.params;
     const { status } = req.body; // expected "done" or "pending"
 
-    if (!["done", "pending"].includes(status)) {
+    if (!["Pending", "In Progress", "Resolved"].includes(status)) {
       return res.status(400).json({ message: "Invalid status value" });
     }
 
