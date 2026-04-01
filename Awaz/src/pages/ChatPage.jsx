@@ -37,7 +37,7 @@ function ChatPage() {
 
     try {
       // 👇 Send request to Flask backend
-      const res = await axios.post('http://127.0.0.1:5000/api/chat', {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/chat`, {
         message: userMessageText,
       });
 

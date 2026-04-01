@@ -12,7 +12,7 @@ function StudentDashboard() {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/user/post/public"
+          `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/public`
         );
         setPosts(response.data.posts);
       } catch (err) {

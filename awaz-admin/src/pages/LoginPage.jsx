@@ -20,14 +20,19 @@ function LoginPage() {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/user/api/login',
+        `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/api/login`,
         { username, password },
         { withCredentials: true }
       );
 
       if (response.data.success) {
-        login();
-        navigate('/dashboard');
+        // Check if the user is actually an admin
+        if (response.data.user && response.data.user.role === 'admin') {
+          login();
+          navigate('/dashboard');
+        } else {
+          setError('Access denied. You do not have admin privileges.');
+        }
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please check credentials.');

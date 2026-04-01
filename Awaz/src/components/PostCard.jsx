@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 // SVG Icon Components
 const LikeIcon = () => (
@@ -23,9 +24,17 @@ function PostCard({ post }) {
   const [comments, setComments] = useState(post.comments || []);
   const [newComment, setNewComment] = useState('');
 
-  const handleLike = () => {
-    setLikes(hasLiked ? likes - 1 : likes + 1);
+  const handleLike = async () => {
+    const adjust = hasLiked ? -1 : 1;
+    setLikes(likes + adjust);
     setHasLiked(!hasLiked);
+    try {
+      await axios.patch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/${post._id}/like`, { adjust }, { withCredentials: true });
+    } catch (err) {
+      console.error("Failed to sync like", err);
+      setLikes(likes);
+      setHasLiked(hasLiked);
+    }
   };
 
   const handleCommentSubmit = (e) => {
@@ -37,24 +46,13 @@ function PostCard({ post }) {
   };
 
   const renderMedia = () => {
-    if (!post.mediaUrl) return null;
+    const mediaUrl = post.media?.url || post.mediaUrl;
+    if (!mediaUrl) return null;
 
-    if (post.mediaType === 'image') {
-      return (
-        <div className="mt-4 overflow-hidden rounded-lg border border-gray-700 group">
-          <img
-            src={post.mediaUrl}
-            alt={post.title}
-            className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
-      );
-    }
-
-    if (post.mediaType === 'video') {
+    if (post.mediaType === 'video' || mediaUrl.match(/\\.(mp4|webm|ogg)$/i)) {
       return (
         <video
-          src={post.mediaUrl}
+          src={mediaUrl}
           controls
           className="w-full h-auto mt-4 rounded-lg bg-black border border-gray-700"
         >
@@ -63,7 +61,15 @@ function PostCard({ post }) {
       );
     }
 
-    return null;
+    return (
+      <div className="mt-4 overflow-hidden rounded-lg border border-gray-700 group">
+        <img
+          src={mediaUrl}
+          alt={post.title || "Post media"}
+          className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      </div>
+    );
   };
 
   return (
@@ -79,7 +85,7 @@ function PostCard({ post }) {
 
         {/* Content */}
         <h3 className="text-xl font-semibold text-white mb-2">{post.title}</h3>
-        <p className="text-gray-300 leading-relaxed">{post.description}</p>
+        <p className="text-gray-300 leading-relaxed">{post.text || post.description}</p>
 
         {renderMedia()}
 

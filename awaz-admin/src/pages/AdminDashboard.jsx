@@ -21,7 +21,7 @@ function AdminDashboard() {
       setError(null);
       const endpoint = activeTab === 'private' ? 'private' : 'public';
       try {
-        const response = await axios.get(`http://localhost:3000/user/post/${endpoint}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/${endpoint}`, {
           withCredentials: true,
         });
         setPosts(response.data.posts);

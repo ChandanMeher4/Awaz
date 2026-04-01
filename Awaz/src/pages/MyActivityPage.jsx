@@ -1,11 +1,10 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; 
-import { mockComplaints, mockPosts, CURRENT_USER_ID } from '../data/MockData';
+import axios from 'axios';
 import PostCard from '../components/PostCard';
 
 const getStatusColor = (status) => {
-  
   switch (status) {
     case 'New': return 'bg-blue-500 text-blue-100';
     case 'In Progress': return 'bg-purple-500 text-purple-100';
@@ -15,15 +14,45 @@ const getStatusColor = (status) => {
 };
 
 function MyActivityPage() {
-  const myReports = mockComplaints.filter(c => c.userId === CURRENT_USER_ID);
-  const myPosts = mockPosts.filter(p => p.userId === CURRENT_USER_ID);
+  const [myReports, setMyReports] = useState([]);
+  const [myPosts, setMyPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  
-  const hasNewMessage = (chat) => {
-    if (chat.length === 0) return false;
+  useEffect(() => {
+    const fetchActivity = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/my/activity`, {
+          withCredentials: true
+        });
+        
+        const posts = response.data.posts || [];
+        // Separate anonymous queries from public posts
+        setMyReports(posts.filter(p => p.anonymous));
+        setMyPosts(posts.filter(p => !p.anonymous));
+      } catch (err) {
+        console.error("Failed to fetch activity:", err);
+        setError("Failed to load your activity.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
     
+    fetchActivity();
+  }, []);
+
+  const hasNewMessage = (chat) => {
+    if (!chat || chat.length === 0) return false;
     return chat[chat.length - 1].sender === 'admin';
   };
+
+  if (isLoading) {
+    return <div className="text-center text-white py-10">Loading your activity...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-500 py-10">Error: {error}</div>;
+  }
 
   return (
     <div className="max-w-3xl mx-auto py-6">
@@ -39,24 +68,24 @@ function MyActivityPage() {
             myReports.map(report => (
               
               <Link
-                key={report.id}
-                to={`/my-activity/chat/${report.id}`} 
+                key={report._id}
+                to={`/my-activity/chat/${report._id}`} 
                 className="block bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition-colors"
               >
                 <div className="flex justify-between items-center">
                   <div>
-                    <span className="text-sm text-gray-400">{report.id} - {report.date}</span>
-                    <h3 className="text-lg font-medium text-white">{report.category}</h3>
-                    <p className="text-gray-300 truncate max-w-md">{report.description}</p>
+                    <span className="text-sm text-gray-400">{report._id} - {new Date(report.createdAt).toLocaleDateString()}</span>
+                    <h3 className="text-lg font-medium text-white">{report.title || "Query"}</h3>
+                    <p className="text-gray-300 truncate max-w-md">{report.text}</p>
                   </div>
                   <div className="text-right flex-shrink-0 ml-4">
                     <span className="text-sm font-medium">Status:</span>
                     <span className={`block px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(report.status)}`}>
-                      {report.status}
+                      {report.status || "Pending"}
                     </span>
                     
                     {/* --- NEW: Notification Badge --- */}
-                    {hasNewMessage(report.chat) && (
+                    {hasNewMessage(report.replies) && (
                       <span className="block mt-2 px-3 py-1 text-xs font-bold rounded-full bg-red-500 text-white animate-pulse">
                         New Message
                       </span>
@@ -81,7 +110,7 @@ function MyActivityPage() {
         <div className="space-y-6">
           {myPosts.length > 0 ? (
             myPosts.map(post => (
-              <PostCard key={post.id} post={post} />
+              <PostCard key={post._id} post={post} />
             ))
           ) : (
             <p className="text-gray-400">You have not created any public posts.</p>

@@ -9,7 +9,9 @@ function PublicPostRow({ post }) {
       <td className="px-6 py-4">{post.likes}</td>
       <td className="px-6 py-4">{new Date(post.createdAt).toLocaleDateString()}</td>
       <td className="px-6 py-4 text-right">
-        <button className="font-medium text-blue-500 hover:underline">View</button>
+        <Link to={`/complaint/${post._id}`} className="font-medium text-blue-500 hover:underline">
+          View
+        </Link>
       </td>
     </tr>
   );

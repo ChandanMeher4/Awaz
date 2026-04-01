@@ -38,7 +38,7 @@ function CreatePostPage() {
     if (file) formData.append("media", file);
 
     try {
-      await axios.post("http://localhost:3000/user/post", formData, {
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });

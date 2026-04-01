@@ -7,6 +7,7 @@ import cors from 'cors'
 import { connectDB } from './config/dbConnection.js'
 import router from './routes/user.routes.js'
 import postRouter from "./routes/post.routes.js";
+import aiRouter from "./routes/ai.routes.js";
 
 
 const app = express()
@@ -14,8 +15,12 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+if (process.env.FRONTEND_URL) allowedOrigins.push(process.env.FRONTEND_URL);
+if (process.env.ADMIN_URL) allowedOrigins.push(process.env.ADMIN_URL);
+
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174'], 
+  origin: allowedOrigins, 
   methods:['GET','POST','PUT','DELETE','PATCH'],
   credentials: true
 }));
@@ -23,6 +28,7 @@ connectDB()
 
 app.use('/user/api',router)
 app.use('/user/post',postRouter)
+app.use('/api/chat', aiRouter)
 
 const PORT = process.env.PORT || 8000;
 

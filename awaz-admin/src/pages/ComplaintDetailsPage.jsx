@@ -18,7 +18,7 @@ function ComplaintDetailsPage() {
   useEffect(() => {
     const fetchComplaint = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/user/post/${id}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/${id}`, {
           withCredentials: true,
         });
         setComplaint(response.data.post);
@@ -37,7 +37,7 @@ function ComplaintDetailsPage() {
     setMessage(null);
     try {
       const response = await axios.patch(
-        `http://localhost:3000/user/post/status/${id}`,
+        `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/status/${id}`,
         { status },
         { withCredentials: true }
       );
@@ -150,9 +150,22 @@ function ComplaintDetailsPage() {
           <div>
             <h2 className="text-gray-400 font-medium mb-2">Full Description</h2>
             <p className="text-gray-300 bg-gray-900/60 p-4 rounded-xl border border-gray-700 leading-relaxed">
-              {complaint.text}
+              {complaint.text || complaint.description}
             </p>
           </div>
+
+          {(complaint.media?.url || complaint.mediaUrl) && (
+            <div>
+              <h2 className="text-gray-400 font-medium mb-2">Attached Media</h2>
+              <div className="bg-gray-900/60 p-2 rounded-xl border border-gray-700 inline-block overflow-hidden">
+                <img 
+                  src={complaint.media?.url || complaint.mediaUrl} 
+                  alt="Complaint attached media" 
+                  className="max-h-96 w-auto object-contain rounded-lg"
+                />
+              </div>
+            </div>
+          )}
 
           <form
             onSubmit={handleUpdateStatus}

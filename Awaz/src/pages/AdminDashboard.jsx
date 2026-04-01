@@ -16,7 +16,7 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/user/post/all", {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/all`, {
           withCredentials: true,
         });
 
