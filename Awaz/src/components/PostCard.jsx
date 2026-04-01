@@ -80,11 +80,23 @@ function PostCard({ post }) {
     <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl shadow-xl overflow-hidden my-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
       <div className="p-6">
         {/* Header */}
-        <div className="flex items-center space-x-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-            {post.icon}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+              {post.icon}
+            </div>
+            <span className="font-semibold text-white">{post.user || (post.anonymous ? "Anonymous" : "User")}</span>
           </div>
-          <span className="font-semibold text-white">{post.user}</span>
+          
+          {post.status && (
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${
+              post.status === 'Resolved' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+              post.status === 'In Progress' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
+              'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+            }`}>
+              {post.status}
+            </span>
+          )}
         </div>
 
         {/* Content */}
