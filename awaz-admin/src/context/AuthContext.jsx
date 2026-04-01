@@ -16,6 +16,7 @@ export function AuthProvider({ children }) {
   const logout = () => {
     // We would also call a backend logout endpoint here
     setIsAdmin(false);
+    localStorage.removeItem('awaz_token');
   };
 
   const value = {

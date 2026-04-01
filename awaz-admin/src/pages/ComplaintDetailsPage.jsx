@@ -18,8 +18,10 @@ function ComplaintDetailsPage() {
   useEffect(() => {
     const fetchComplaint = async () => {
       try {
+        const token = localStorage.getItem('awaz_token');
         const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/${id}`, {
           withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` }
         });
         setComplaint(response.data.post);
         setStatus(response.data.post.status);
@@ -36,10 +38,14 @@ function ComplaintDetailsPage() {
     e.preventDefault();
     setMessage(null);
     try {
+      const token = localStorage.getItem('awaz_token');
       const response = await axios.patch(
         `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/status/${id}`,
         { status },
-        { withCredentials: true }
+        { 
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` } 
+        }
       );
       setMessage(response.data.message || 'Status updated successfully!');
     } catch (err) {

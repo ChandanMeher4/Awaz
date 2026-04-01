@@ -22,7 +22,9 @@ function MyActivityPage() {
   useEffect(() => {
     const fetchActivity = async () => {
       try {
+        const token = localStorage.getItem('awaz_token');
         const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/my/activity`, {
+          headers: { "Authorization": `Bearer ${token}` },
           withCredentials: true
         });
         

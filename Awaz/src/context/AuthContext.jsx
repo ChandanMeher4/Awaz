@@ -21,6 +21,7 @@ export function AuthProvider({ children }) {
   const logout = () => {
     console.log("Logging out student");
     setIsStudent(false);
+    localStorage.removeItem('awaz_token');
   };
 
   const value = {

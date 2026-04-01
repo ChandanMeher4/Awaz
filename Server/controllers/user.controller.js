@@ -37,6 +37,7 @@ export const registerUser = async (req, res) => {
       success: true,
       message: "User registered successfully",
       user: { username: newUser.username, role: newUser.role },
+      token: token
     });
   } catch (err) {
     console.error("Register Error:", err);
@@ -75,6 +76,7 @@ export const loginUser = async (req, res) => {
       success: true,
       message: "Login successful",
       user: { username: user.username, role: user.role },
+      token: token
     });
   } catch (err) {
     console.error("Login Error:", err);

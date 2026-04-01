@@ -29,7 +29,11 @@ function PostCard({ post }) {
     setLikes(likes + adjust);
     setHasLiked(!hasLiked);
     try {
-      await axios.patch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/${post._id}/like`, { adjust }, { withCredentials: true });
+      const token = localStorage.getItem('awaz_token');
+      await axios.patch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/${post._id}/like`, { adjust }, { 
+        headers: { "Authorization": `Bearer ${token}` },
+        withCredentials: true 
+      });
     } catch (err) {
       console.error("Failed to sync like", err);
       setLikes(likes);

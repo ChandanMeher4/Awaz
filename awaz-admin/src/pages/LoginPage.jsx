@@ -29,6 +29,7 @@ function LoginPage() {
         // Check if the user is actually an admin
         if (response.data.user && response.data.user.role === 'admin') {
           login();
+          localStorage.setItem('awaz_token', response.data.token);
           navigate('/dashboard');
         } else {
           setError('Access denied. You do not have admin privileges.');

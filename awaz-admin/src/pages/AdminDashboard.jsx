@@ -21,8 +21,10 @@ function AdminDashboard() {
       setError(null);
       const endpoint = activeTab === 'private' ? 'private' : 'public';
       try {
+        const token = localStorage.getItem('awaz_token');
         const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post/${endpoint}`, {
           withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` }
         });
         setPosts(response.data.posts);
       } catch (err) {

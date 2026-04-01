@@ -38,8 +38,12 @@ function CreatePostPage() {
     if (file) formData.append("media", file);
 
     try {
+      const token = localStorage.getItem('awaz_token');
       await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/user/post`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { 
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${token}`
+        },
         withCredentials: true,
       });
 
